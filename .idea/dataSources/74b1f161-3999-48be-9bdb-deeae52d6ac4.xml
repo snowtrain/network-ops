@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="test@192.168.10.122">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.11">
+    <root id="1">
+      <ServerVersion>9.2.24</ServerVersion>
+    </root>
+    <database id="2" parent="1" name="clouddb">
+      <ObjectId>16388</ObjectId>
+      <Owner>clouduser</Owner>
+    </database>
+    <database id="3" parent="1" name="devnetdb">
+      <ObjectId>16566</ObjectId>
+      <Owner>clouduser</Owner>
+    </database>
+    <database id="4" parent="1" name="postgres">
+      <ObjectId>12926</ObjectId>
+      <Comment>default administrative connection database</Comment>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="5" parent="1" name="test">
+      <ObjectId>18256</ObjectId>
+      <Owner>clouduser</Owner>
+      <IntrospectionStateNumber>2</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <role id="6" parent="1" name="clouduser">
+      <ObjectId>16387</ObjectId>
+      <Inherit>1</Inherit>
+      <CanLogin>1</CanLogin>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="7" parent="1" name="postgres">
+      <ObjectId>10</ObjectId>
+      <SuperRole>1</SuperRole>
+      <Inherit>1</Inherit>
+      <CreateRole>1</CreateRole>
+      <CreateDb>1</CreateDb>
+      <CanLogin>1</CanLogin>
+      <Replication>1</Replication>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <schema id="8" parent="5" name="information_schema">
+      <ObjectId>12383</ObjectId>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="9" parent="5" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+      <Comment>system catalog schema</Comment>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="10" parent="5" name="pg_temp_1">
+      <ObjectId>11194</ObjectId>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="11" parent="5" name="pg_toast">
+      <ObjectId>99</ObjectId>
+      <Comment>reserved schema for TOAST tables</Comment>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="12" parent="5" name="pg_toast_temp_1">
+      <ObjectId>11195</ObjectId>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="13" parent="5" name="public">
+      <ObjectId>2200</ObjectId>
+      <Comment>standard public schema</Comment>
+      <Owner>postgres</Owner>
+      <IntrospectionTimestamp>2019-11-06.13:38:49.055</IntrospectionTimestamp>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <access-method id="14" parent="5" name="btree">
+      <ObjectId>403</ObjectId>
+      <Comment>b-tree index access method</Comment>
+    </access-method>
+    <access-method id="15" parent="5" name="hash">
+      <ObjectId>405</ObjectId>
+      <Comment>hash index access method</Comment>
+    </access-method>
+    <access-method id="16" parent="5" name="gist">
+      <ObjectId>783</ObjectId>
+      <Comment>GiST index access method</Comment>
+    </access-method>
+    <access-method id="17" parent="5" name="gin">
+      <ObjectId>2742</ObjectId>
+      <Comment>GIN index access method</Comment>
+    </access-method>
+    <access-method id="18" parent="5" name="spgist">
+      <ObjectId>4000</ObjectId>
+      <Comment>SP-GiST index access method</Comment>
+    </access-method>
+  </database-model>
+</dataSource>

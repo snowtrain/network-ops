@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <style type="text/css">
+        label.required::before {
+            content: "*";
+            color: red;
+        }
+    </style>
+{% endblock head %}
+
+{% block body %}
+    <div class="row" id="body-row">
+        <div class="col-sm-3 col-md-2 sidebar">
+
+        </div>
+        <div class="col-sm-9 col-md-10 main">
+            <div class="card-box">
+                <h4 class="header-title m-t-0">设置监控周期</h4>
+                <p class="text-muted font-14 m-b-20">
+                    等待添加公告！
+                </p>
+                {% if successmessage %}
+                    <span class="message">
+                        <div class="alert alert-success"
+                                               role="alert">{{ successmessage }}
+                        </div>
+                    </span>
+                {% endif %}
+
+                {% if warningmessage %}
+                    <span class="message">
+                        <div class="alert alert-warning"
+                                               role="alert">{{ warningmessage }}
+                        </div>
+                    </span>
+                {% endif %}
+
+                {% if errormessage %}
+                    <span class="message">
+                        <div class="alert alert-danger"
+                                                role="alert">{{ errormessage }}
+                        </div>
+                    </span>
+                {% endif %}
+
+                <form action="/system_setting/monitor_interval" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class=form-group>
+                            {% if field.errors %}
+                                <div class="alert alert-danger" role="alert">{{ field.errors }}</div>
+                            {% endif %}
+                            {{ field.label_tag }}
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+
+                    <div>
+                        <button type="submit" class="btn btn-custom waves-effect waves-light">
+                            提交
+                        </button>
+                        <button type="reset" class="btn btn-light waves-effect m-l-5">
+                            Cancel
+                        </button>
+                    </div>
+
+                </form>
+                <br>
+
+                {# 重置监控周期的表单 #}
+                <form action="/system_setting/reset_monitor_interval" method="post">
+                    {% csrf_token %}
+                    {# 背景颜色为黄色, 执行重置前需要确认 #}
+                    <button type="submit" class="btn btn-warning waves-effect m-l-5" onclick="return confirmAct();">
+                        重置
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {# 确认重置监控周期的JavaScript #}
+    <script type="text/javascript" language="javascript">
+        <!--
+        function confirmAct() {
+            if (confirm('确定要重置监控周期到默认吗?')) {
+                return true;
+            }
+            return false;
+        }
+
+        //-->
+    </script>
+    <script>
+        $(function () {
+            setTimeout(function () {
+                $("span.message").hide(); //三秒后让提示信息消失
+            }, 10000);
+        })
+    </script>
+{% endblock body %}

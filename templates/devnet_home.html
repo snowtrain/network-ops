@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <div class="container-fluid">
+
+        <div class="content-page">
+
+            <!-- Top Bar Start -->
+            <div class="topbar">
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header">设备健康摘要</div>
+
+                            <div class="card-body">
+                                {% include 'pyhtml/reachable.html' %}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header">CPU利用率摘要</div>
+
+                            <div class="card-body">
+                                {% include 'pyhtml/cpu.html' %}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header">内存利用率摘要</div>
+
+                            <div class="card-body">
+                                {% include 'pyhtml/mem.html' %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">Top 5 CPU利用率</div>
+
+                        <div class="card-body">
+                            {% include 'top_cpu_utilization.html'%}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">Top 5 内存利用率</div>
+
+                        <div class="card-body">
+                            {% include 'top_mem_utilization.html'%}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">Top 5 入向接口利用率</div>
+
+                        <div class="card-body">
+                            {% include 'top_rx_utilization.html'%}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">Top 5 出向接口利用率</div>
+
+                        <div class="card-body">
+                            {% include 'top_tx_utilization.html'%}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock body %}

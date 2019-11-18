@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../DevNet2019" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Python_Netflow" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../blog-revision" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../pyecharts" vcs="Git" />
+  </component>
+</project>

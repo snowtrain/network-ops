@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}
+    Netflow协议分析
+{% endblock title %}
+
+{% block head %}
+    {#    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">#}
+    <style type="text/css">
+        label.required::before {
+            content: "*";
+            color: red;
+        }
+    </style>
+{% endblock head %}
+
+
+{% block body %}
+    <div class="row" id="body-row">
+        <div class="col-sm-3 col-md-2 sidebar">
+
+        </div>
+        <div class="col-sm-9 col-md-10 main">
+            <div class="card-box">
+                <h4 class="header-title m-t-0">添加协议</h4>
+                <p class="text-muted font-14 m-b-20">
+                    等待添加公告！
+                </p>
+                {% if successmessage %}
+                    <span class="message">
+                        <div class="alert alert-success"
+                                               role="alert">{{ successmessage }}
+                        </div>
+                    </span>
+                {% endif %}
+
+                {% if warningmessage %}
+                    <span class="message">
+                        <div class="alert alert-warning"
+                                               role="alert">{{ warningmessage }}
+                        </div>
+                    </span>
+                {% endif %}
+
+                {% if errormessage %}
+                    <span class="message">
+                        <div class="alert alert-danger" role="alert">{{ errormessage }}
+                        </div>
+                    </span>
+                {% endif %}
+
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class=form-group>
+                            {% if field.errors %}
+                                <div class="alert alert-danger" role="alert">{{ field.errors }}</div>
+                            {% endif %}
+                            {{ field.label_tag }}
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <div>
+                        <button type="submit" class="btn btn-custom waves-effect waves-light">
+                            Submit
+                        </button>
+                        <button type="reset" class="btn btn-light waves-effect m-l-5">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}

@@ -1,0 +1,66 @@
+<table class="table table-bordered" id="myTable_cpu">
+
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">设备名</th>
+          <th scope="col">接口名</th>
+          <th scope="col">最大入向利用率</th>
+          <th scope="col">当前入向利用率</th>
+        </tr>
+      </thead>
+      <tbody id ="myTable_cpu">
+        {% for device in top_5_if_utilization_rx_dict %}
+        <tr>
+          <th scope="row" align="center" valign="center" >{{ forloop.counter }}</th>
+          {# 设备名称 #}
+          <td align="center" valign="center" style="color:black"><strong>{{ device.name }}</strong></td>
+          {# 接口名称 #}
+          <td align="center" valign="center" style="color:black"><strong>{{ device.ifname }}</strong></td>
+          {# 最大入向接口利用率 #}
+          {# 根据最大入向接口利用率, 调整进度条颜色与长度 #}
+          {% if device.rx_max >= 70 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                {# progress-bar为进度条, bg-danger为颜色, width为长度, <div>中间</div>为进度条内显示的内容 #}
+                <div class="progress-bar bg-danger" role="progressbar" style="width: {{ device.rx_max }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.rx_max }}%</div>
+              </div>
+          </td>
+          {% elif device.rx_max >= 30 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ device.rx_max }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.rx_max }}%</div>
+              </div>
+          </td>
+          {% else %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: {{ device.rx_max }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.rx_max }}%</div>
+              </div>
+          </td>
+          {% endif %}
+          {# 当前入向接口利用率 #}
+          {# 根据当前入向接口利用率, 调整进度条颜色与长度 #}
+          {% if device.rx_current >= 70 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                {# progress-bar为进度条, bg-danger为颜色, width为长度, <div>中间</div>为进度条内显示的内容 #}
+                <div class="progress-bar bg-danger" role="progressbar" style="width: {{ device.rx_current }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.rx_current }}%</div>
+              </div>
+          </td>
+          {% elif device.rx_current >= 30 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ device.rx_current }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.rx_current }}%</div>
+              </div>
+          </td>
+          {% else %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: {{ device.rx_current }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.rx_current }}%</div>
+              </div>
+          </td>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>

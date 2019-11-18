@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>login</title>
+
+    <!-- App css -->
+    {% load static %}
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/icons.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/metismenu.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+
+    <script src="{% static 'js/modernizr.min.js' %}"></script>
+
+</head>
+
+
+<body class="account-pages">
+
+<!-- Begin page -->
+<div class="accountbg" style="background: url('/static/images/index.jpg');background-size: cover;"></div>
+
+<div class="wrapper-page account-page-full">
+
+    <div class="card">
+        <div class="card-block">
+            <div class="account-box">
+                <div class="card-box p-5">
+                    <h2 class="text-uppercase text-center pb-4" style="color: green;">
+                        自动化运维管理系统
+                    </h2>
+                    <form class="login" method="POST" action="">
+
+                        {% csrf_token %}
+                        {% if error %}
+                            <div class="alert alert-block alert-danger">
+                                <ul>
+                                    <li>您提供的用户名或密码不正确。</li>
+                                </ul>
+                            </div>
+                        {% endif %}
+                        {% if inactive %}
+                            <div class="alert alert-block alert-danger">
+                                <ul>
+                                    <li>您的账号已被封禁。</li>
+                                </ul>
+                            </div>
+                        {% endif %}
+                        <div id="div_id_login" class="form-group">
+                            <label for="id_login" class="form-control-label  requiredField">账号<span
+                                    class="asteriskField" style="color: red; ">*</span></label>
+                            <div class="">
+                                <input type="text" name="username" placeholder="用户名" autofocus="autofocus"
+                                       value="{{ username }}" class="textinput textInput form-control" required
+                                       id="id_login"/>
+                            </div>
+                        </div>
+                        <div id="div_id_password" class="form-group">
+                            <label for="id_password" class="form-control-label  requiredField">密码<span
+                                    class="asteriskField" style="color: red; ">*</span> </label>
+                            <div class="">
+                                <input type="password" value="{{ pwd }}" name="password" placeholder="密码"
+                                       class="textinput textInput form-control" required id="id_password"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox checkbox-custom">
+                                <input id="remember" type="checkbox" checked="">
+                                <label for="remember">
+                                    记住我
+                                </label>
+                            </div>
+                        </div>
+                        <input type="hidden" name="next" value="{{ next_to }}"/>
+                        <button class="pull-right btn btn-info btn-sm rounded-0" type="submit">登录</button>
+                        <div class="login-title">
+                        </div>
+                    </form>
+
+                    <div class="row m-t-50">
+                        <div class="col-sm-12 text-center">
+                            <p class="text-muted">Don't have an account? <a href="/accounts/register/"
+                                                                            class="text-dark m-l-5"><b>Sign Up</b></a>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="container-fluid">
+
+        <div class="content-page">
+
+            <!-- Top Bar Start -->
+            <div class="topbar">
+
+                <div class="row py-2">
+                    <div class="col-md-6 py-1">
+                        <div class="card">
+                            <div class="card-header">协议分布 Top 10</div>
+                            <div class="card-body">
+                                {# Netflow协议分析 协议分布 Top 5 饼状图出现位置 #}
+                                {% include 'pyhtml/top_protocol.html' %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 py-1">
+                        <div class="card">
+                            <div class="card-header">最大流量IP Top 10</div>
+                            <div class="card-body">
+                                {# Netflow协议分析 最大流量IP Top 5 饼状图出现位置 #}
+                                {% include 'pyhtml/top_ip.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
