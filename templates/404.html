@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}404{% endblock %}
+{% block head %}
+<meta name="description" content="404,网页不存在，网页丢失，请求失败">
+<meta name="keywords" content="404页面">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row errorpage">
+        <div class="col align-self-center error-img text-center">
+            <p style="color: red; font-size: 50px">你好像没有权限！！！</p>
+            <div class="errorimg">
+                <img class="img-fluid" src="{% static 'images/2.jpg'%}">
+            </div>
+            <div class="errormsg">
+                <a href="javascript:history.go(-1);" style="font-size: 30px">点击返回</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock body %}

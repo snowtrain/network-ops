@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container-fluid">
+    {# 显示什么设备的哪两个配置进行比较 #}
+    <div class='col-md-8'>
+        <br><h2 style="color: #666666">{{ devicename }} {{ id1 }} VS {{ id2 }}</h2><br>
+    </div>
+    <div class='col-md-8'>
+        {# 显示比较配置的内容, 设置为readonly #}
+        <form>
+            <div class="form-group" align="center">
+                <textarea rows="20" class="form-control" readonly id="textarea" >{{ compare_result }}</textarea>
+            </div>
+        </form>
+        <br>
+        {# 可以一键复制比较结果到剪贴板 #}
+        <button onclick="copy()">复制到剪贴板</button>
+    </div>
+</div>
+{# 一键复制的JS代码 #}
+<script type="text/javascript" language="javascript">
+    function copy() {
+      let textarea = document.getElementById("textarea");
+      textarea.select();
+      document.execCommand("copy");
+    }
+</script>
+{% endblock body %}

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    {% load static %}
+    <link rel="shortcut icon" href="{% static "images/1.jpg"%}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{#    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">#}
+    <link rel='stylesheet' id='font-awesome-css' href='{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}' type='text/css' media='all'/>
+    <title>{% block title %}{% endblock title %}</title>
+    {% block head %}{% endblock head %}
+  </head>
+  <body>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script type='text/javascript' src='{% static 'js/jquery-3.3.1.slim.min.js' %}'></script>
+    <script type='text/javascript' src='{% static 'js/popper.min.js' %}'></script>
+    <script type='text/javascript' src='{% static 'js/bootstrap.min.js' %}'></script>
+
+    {% block js %}
+    {% endblock js %}
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+     {% load static %}
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">主页<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    设备管理
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/device_mgmt/add_device/">添加设备</a>
+                    <a class="dropdown-item" href="/device_mgmt/add_device_type/">添加设备类型</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/device_mgmt/show_device/">查看设备</a>
+                    <a class="dropdown-item" href="/device_mgmt/show_device_type">查看设备类型</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    设备监控
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/device_monitor/cpu/">CPU利用率图表</a>
+                    <a class="dropdown-item" href="/device_monitor/mem/">内存利用率图表</a>
+                    <a class="dropdown-item" href="/device_monitor/if_speed/">接口速率图表</a>
+                    <a class="dropdown-item" href="/device_monitor/if_utilization/">接口利用率图表</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/device_config/">设备配置备份</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    NetFlow
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/netflow/">协议分析</a>
+                    <a class="dropdown-item" href="/netflow/add_protocol/">协议添加</a>
+                    <a class="dropdown-item" href="/netflow/add_application/">应用添加</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/elk/">ELK日志集成</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    系统设置
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/system_setting/monitor_interval">监控周期</a>
+                    <a class="dropdown-item" href="/system_setting/database_lifetime">数据老化</a>
+                    <a class="dropdown-item" href="/system_setting/threshold_mail">告警周期</a>
+                </div>
+            </li>
+        </ul>
+      </div>
+    <div class="speedbar" style="height: auto">
+        <div class="pull-right">
+            {% if request.session.username|default:'' == '' %}
+                <a href="https://github.com/snowtrain" rel="external nofollow" title="GitHub" target="_blank" style="margin-left:20px"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a>
+                <a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=admin_ricky@zoho.com.cn" rel="external nofollow" title="Email" target="_blank" style="margin-left:20px"><i class="email fa fa-envelope-o fa-2x"></i></a>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=1204294245&site=qq&menu=yes " target="_blank" style="margin-left:20px" title="1204294245@qq.com" class="social-icon tool-tip qq"  data-placement="top"><i class="fa fa-qq fa-2x"></i></a>
+
+                <a href="/accounts/login/" rel="external nofollow" title="login" target="_blank" style="margin-left:20px;font-size: 25px">登录</a>
+            {% else %}
+                <a href="https://github.com/snowtrain" rel="external nofollow" title="GitHub" target="_blank" style="margin-left:20px"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a>
+                <a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=admin_ricky@zoho.com.cn" rel="external nofollow" title="Email" target="_blank" style="margin-left:20px"><i class="email fa fa-envelope-o fa-2x"></i></a>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=1204294245&site=qq&menu=yes " target="_blank" style="margin-left:20px" title="1204294245@qq.com" class="social-icon tool-tip qq"  data-placement="top"><i class="fa fa-qq fa-2x"></i></a>
+
+                <a href="/accounts/logout/" rel="external nofollow" title="logout" target="_blank" style="margin-left:20px;font-size: 25px">注销</a>
+            {% endif %}
+        </div>
+    </div>
+    </nav>
+
+    {% block body %}
+    {% endblock body %}
+  </body>
+</html>

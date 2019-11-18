@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block js %}
+    {% load static %}
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static "js/chart_functions.js" %}"></script>
+    <!-- 加载ajax的JS文件-->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+{% endblock js %}
+
+{% block body %}
+<div class="row" id="body-row">
+    <div class="col-sm-3 col-md-2 sidebar">
+
+    </div>
+
+    <div class="col-sm-9 col-md-10 main">
+        <br><h2 style="color: #666666">接口速率</h2>
+        <div class="card text-center">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+              {# 设备选择标签卡 #}
+              {% for device in devices_list %}
+                  {% if device.name == current %}
+                  <li class="nav-item">
+                    {# 会把当前设备current设置为active的选择卡 #}
+                    <a class="nav-link active" href="/device_monitor/if_utilization/{{ device.id }}">{{ device.name }}</a>
+                  </li>
+                  {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="/device_monitor/if_utilization/{{ device.id }}">{{ device.name }}</a>
+                  </li>
+                  {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title", style="color: #9d9d9d"><strong>监控接口利用率</strong></h5>
+            {# 接口选择下拉菜单 #}
+            <select id="interfaceid">
+             {% for if in if_list %}
+                 {% if forloop.counter == 1 %}
+                    {# 会把第一个设备设置为"selected" #}
+                    <option value={{ if.id }} selected="selected">{{ if.name }}</option>
+                 {% else %}
+                    <option value={{ if.id }}>{{ if.name }}</option>
+                 {% endif %}
+             {% endfor %}
+            </select>
+            <select id="direction">
+             {# 选择监控的方向 #}
+             <option value="rx" selected="selected">入方向</option>
+             <option value="tx">出方向</option>
+            </select>
+            {# 查询按钮, 点击触发if_utilization_chart() JavaScript 绘制接口利用率线性图 #}
+            <button onClick="if_utilization_chart();">查询</button>
+              <div class='row'>
+                  <div class='col col-md-2'>
+                  </div>
+                  <div class='col col-md-8'>
+                    {# 接口利用率线性图出现位置 #}
+                    <canvas id='chart'></canvas>
+                  </div>
+                  <div class='col col-md-2'>
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+{# 绘制接口利用率线性图JavaScript #}
+<script type="text/javascript" language="javascript">
+    function if_utilization_chart() {
+        // 获取客户选择的接口名称
+        let e = document.getElementById("interfaceid");
+        let interface_id = e.options[e.selectedIndex].value;
+        // 获取客户选择的方向
+        let i = document.getElementById("direction");
+        let direction = i.options[i.selectedIndex].value;
+        // 获取图表JSON数据的URL
+        let url = "/device_monitor/if_utilization/" + interface_id + "/" + direction
+        // 获取JSON数据并绘制线性图
+        $.getJSON(url, function (data) {//请求URL的JSON,得到数据data,下面是对data的处理
+            chart_line('chart', data.ifname+" "+direction+" 利用率(单位Kbps)", data.utilization_time, data.utilization_data, ['#007bff', '#28a745', '#333333', '#c3e6cb', '#dc3545', '#6c757d'])
+        });
+    }
+</script>
+{% endblock body %}

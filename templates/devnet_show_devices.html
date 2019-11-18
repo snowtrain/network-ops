@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}">
+{% endblock head %}
+
+{% block js %}
+    {% load static %}
+    {# Datatables的JS #}
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+{% endblock js %}
+
+{% block body %}
+<div class="row" id="body-row">
+    <div class="col-sm-3 col-md-2 sidebar">
+
+    </div>
+
+    <div class="col-sm-8 col-md-9 main">
+        <br><h2 style="color: #666666">设备信息查询</h2><br>
+    {# 创建显示设备信息的Table,注意id="table-for-device", 后续DataTable JavaScript就对这个ID的Table进行渲染优化 #}
+    <table class="table table-bordered" id="table-for-device">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">设备名</th>
+          <th scope="col">IP地址</th>
+          <th scope="col">SNMP可达性</th>
+          <th scope="col">SSH可达性</th>
+          <th scope="col">CPU最大利用率</th>
+          <th scope="col">CPU当前利用率</th>
+          <th scope="col">MEM最大利用率</th>
+          <th scope="col">MEM当前利用率</th>
+          <th scope="col">接口在用个数</th>
+          <th scope="col">操作</th>
+        </tr>
+      </thead>
+      <tbody id ="table-for-device">
+        {% for device in devices_list %}
+        <tr>
+          {# 通过forloop.counter来显示行号,请注意这个不是设备唯一ID #}
+          <th scope="row" align="center" valign="center" >{{ forloop.counter }}</th>
+          {# 设备名称 #}
+          {# 判断设备可达性, 并且替换不同的字体颜色 #}
+          {% if device.snmp_reachable is True and device.ssh_reachable is True %}
+            <td align="center" valign="center" style="color:green"><strong>{{ device.name }}</strong></td>
+          {% elif device.snmp_reachable is False and device.ssh_reachable is False %}
+            <td align="center" valign="center" style="color:red"><strong>{{ device.name }}</strong></td>
+          {% else %}
+            <td align="center" valign="center" style="color:darkorange"><strong>{{ device.name }}</strong></td>
+          {% endif %}
+
+          {# 设备IP地址 #}
+          <td align="center" valign="center">{{ device.ip }}</td>
+
+          {# SNMP可达性 #}
+          {# 通过判断SNMP可达性, 替换不同的背景颜色 #}
+          {% if device.snmp_reachable %}
+            <td style="background-color: greenyellow" align="center" valign="center">{{ device.snmp_reachable }}</td>
+          {% else %}
+            <td style="background-color:red" align="center" valign="center">{{ device.snmp_reachable }}</td>
+          {% endif %}
+
+          {# SSH可达性 #}
+          {# 通过判断SSH可达性, 替换不同的背景颜色 #}
+          {% if device.ssh_reachable %}
+            <td style="background-color:greenyellow" align="center" valign="center">{{ device.ssh_reachable }}</td>
+          {% else %}
+            <td style="background-color:red" align="center" valign="center">{{ device.ssh_reachable }}</td>
+          {% endif %}
+
+          {# 最大CPU利用率 #}
+          {# 根据最大CPU利用率, 调整进度条颜色与长度 #}
+          {% if device.cpu_max >= 70 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                {# progress-bar为进度条, bg-danger为颜色, width为长度, <div>中间</div>为进度条内显示的内容 #}
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{ device.cpu_max }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.cpu_max }}%</div>
+              </div>
+          </td>
+          {% elif device.cpu_max >= 30 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{ device.cpu_max }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.cpu_max }}%</div>
+              </div>
+          </td>
+          {% elif device.cpu_max >= 0 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ device.cpu_max }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.cpu_max }}%</div>
+              </div>
+          </td>
+          {% else %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.cpu_max }}%</div>
+              </div>
+          </td>
+          {% endif %}
+          {# 当前CPU利用率 #}
+          {# 根据当前CPU利用率, 调整进度条颜色与长度 #}
+          {% if device.cpu_current >= 70 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                {# progress-bar为进度条, bg-danger为颜色, width为长度, <div>中间</div>为进度条内显示的内容 #}
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{ device.cpu_current }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.cpu_current }}%</div>
+              </div>
+          </td>
+          {% elif device.cpu_current >= 30 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{ device.cpu_current }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.cpu_current }}%</div>
+              </div>
+          </td>
+
+          {% elif device.cpu_current >= 0 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ device.cpu_current }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.cpu_current }}%</div>
+              </div>
+          </td>
+
+          {% else %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.cpu_current }}%</div>
+              </div>
+          </td>
+
+          {% endif %}
+          {# 最大内存利用率 #}
+          {# 根据最大内存利用率, 调整进度条颜色与长度 #}
+          {% if device.mem_max >= 70 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                {# progress-bar为进度条, bg-danger为颜色, width为长度, <div>中间</div>为进度条内显示的内容 #}
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{ device.mem_max }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.mem_max }}%</div>
+              </div>
+          </td>
+          {% elif device.mem_max >= 30 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{ device.mem_max }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.mem_max }}%</div>
+              </div>
+          </td>
+          {% elif device.mem_max >= 0 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ device.mem_max }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.mem_max }}%</div>
+              </div>
+          </td>
+          {% else %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.mem_max }}%</div>
+              </div>
+          </td>
+          {% endif %}
+          {# 当前内存利用率 #}
+          {# 根据当前内存利用率, 调整进度条颜色与长度 #}
+          {% if device.mem_current >= 70 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                {# progress-bar为进度条, bg-danger为颜色, width为长度, <div>中间</div>为进度条内显示的内容 #}
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{ device.mem_current }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.mem_current }}%</div>
+              </div>
+          </td>
+          {% elif device.mem_current >= 30 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{ device.mem_current }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.mem_current }}%</div>
+              </div>
+          </td>
+          {% elif device.mem_current >= 0 %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ device.mem_current }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.mem_current }}%</div>
+              </div>
+          </td>
+          {% else %}
+          <td align="center" valign="center">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ device.mem_current }}%</div>
+              </div>
+          </td>
+          {% endif %}
+          <td align="center" valign="center">{{ device.ifs }}</td>
+          {# 添加删除和编辑按钮 #}
+          {# href嵌入传入的删除和编辑的超链接 #}
+          {# onclick="return confirmAct() 用于在删除对象之前显示确认删除的警告信息 #}
+          {# data-toggle="tooltip" data-placement="top" title="删除此设备" 用于显示按钮的提示信息 #}
+          {# class="badge badge-danger" class="badge badge-success" bootstrap渲染按钮的类型 #}
+          <td align="center" valign="center"><a href="{{ device.id_delete }}" onclick="return confirmAct();" data-toggle="tooltip" data-placement="top" title="删除此设备" class="badge badge-danger">删除</a>
+              <a href="{{ device.id_edit }}"  data-toggle="tooltip" data-placement="top" title="编辑此设备" class="badge badge-success">编辑</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+</div>
+
+{# DataTable渲染显示客户信息的Table #}
+{# 需要加载dataTables的CSS和JS #}
+<script>
+    $(document).ready( function () {
+        $('#table-for-device').DataTable();
+    } );
+</script>
+
+{# DataTable中点击任何一个条目变深色,表示被选中功能的JavaScript #}
+<script>
+    $(document).ready(function() {
+        var table = $('#table-for-device').DataTable();
+
+        $('#table-for-device tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        } );
+
+        $('#button').click( function () {
+            table.row('.selected').remove().draw( false );
+        } );
+    } );
+</script>
+
+{# 提示删除确认警告的JavaScript #}
+<script type="text/javascript" language="javascript">
+    <!--
+    function confirmAct()
+    {
+        if(confirm('确定要执行此删除操作吗?'))
+        {
+            return true;
+        }
+        return false;
+    }
+    //-->
+</script>
+{% endblock body %}

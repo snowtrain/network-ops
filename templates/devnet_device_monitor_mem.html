@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block js %}
+    {% load static %}
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static "js/chart_functions.js" %}"></script>
+{% endblock js %}
+
+{% block body %}
+<div class="row" id="body-row">
+    <div class="col-sm-3 col-md-2 sidebar">
+
+    </div>
+
+    <div class="col-sm-9 col-md-10 main">
+        <br><h2 style="color: #666666">内存利用率</h2>
+        <div class="card text-center">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+              {# 设备选择标签卡 #}
+              {% for device in devices_list %}
+                  {% if device.name == current %}
+                  <li class="nav-item">
+                    {# 会把当前设备current设置为active的选择卡 #}
+                    <a class="nav-link active" href="/device_monitor/mem/{{ device.id }}">{{ device.name }}</a>
+                  </li>
+                  {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="/device_monitor/mem/{{ device.id }}">{{ device.name }}</a>
+                  </li>
+                  {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="card-body">
+              <div class='row'>
+                  <div class='col col-md-1'>
+                  </div>
+                  <div class='col col-md-8'>
+                    {# CPU利用率线性图出现的位置 #}
+                    <canvas id="chart"></canvas>
+                  </div>
+                  <div class='col col-md-1'>
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>
+{# 绘制CPU利用率线性图的JS #}
+{# 重点: 如果返回的结果为字符串, 为了防止JS转码, 需要使用"|safe"来防止转码 #}
+<script type="text/javascript" language="javascript">
+    chart_line('chart', "{{ current }} 内存利用率", {{ mem_time|safe }}, {{ mem_data }}, ['#007bff', '#28a745', '#333333', '#c3e6cb', '#dc3545', '#6c757d']);
+</script>
+{% endblock body %}

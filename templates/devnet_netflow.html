@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+{% endblock head %}
+
+{% block js %}
+    {% load static %}
+    {# 加载Chart.js的JS文件 #}
+    {# 最新的Chart JS 文件 https://cdnjs.com/libraries/Chart.js #}
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    {# 加载本项目创建的chart_json_functions.js的JS文件 #}
+    <script src="{% static "js/chart_functions.js" %}"></script>
+    {# 加载ajax的JS文件 #}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+{% endblock js %}
+
+{% block body %}
+<div class="container-fluid">
+  <br><h2 style="color: #666666">Netflow协议分析</h2><br>
+  <div class="card text-center">
+      <div class="card-body">
+        <div class="row py-2">
+            <div class="col-md-6 py-1">
+                <div class="card">
+                    <div class="card-header">协议分布 Top 10</div>
+                    <div class="card-body">
+                        {# Netflow协议分析 协议分布 Top 5 饼状图出现位置 #}
+                        <canvas id="chDonut1" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 py-1">
+                <div class="card">
+                    <div class="card-header">最大流量IP Top 10</div>
+                    <div class="card-body">
+                        {# Netflow协议分析 最大流量IP Top 5 饼状图出现位置 #}
+                        <canvas id="chDonut2" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+{# 绘制Netflow协议分析饼状图JavaScript #}
+<script type="text/javascript" language="javascript">
+    // 通过URL获取JSON数据,并且渲染饼状图
+    get_json_render_chart('/netflow/protocol', "chDonut1", "pie");
+    get_json_render_chart('/netflow/top_ip', "chDonut2", "pie");
+</script>
+
+{% endblock body %}

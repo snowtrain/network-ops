@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <style type="text/css">
+        label.required::before {
+            content: "*";
+            color: red;
+        }
+    </style>
+{% endblock head %}
+
+{% block js %}
+    {% load static %}
+    {# 加载Chart.js的JS文件 #}
+    {# 最新的Chart JS 文件 https://cdnjs.com/libraries/Chart.js #}
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    {# 加载ajax的JS文件 #}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+{% endblock js %}
+
+{% block body %}
+<div class="row" id="body-row">
+    <div class="col-sm-3 col-md-2 sidebar">
+
+    </div>
+
+    <div class="col-sm-9 col-md-10 main">
+        <br><h2 style="color: #666666">添加协议</h2>
+        {% if successmessage %}
+            <span class="message"><div class="alert alert-success" role="alert">{{ successmessage }}</div></span>
+        {% endif %}
+
+        {% if warningmessage %}
+            <span class="message"><div class="alert alert-warning" role="alert">{{ warningmessage}}</div></span>
+        {% endif %}
+
+        {% if errormessage %}
+            <span class="message"><div class="alert alert-danger" role="alert">{{ errormessage }}</div></span>
+        {% endif %}
+        {# 上传文件需要 enctype="multipart/form-data" #}
+        <form action="" method="post" enctype="multipart/form-data">
+            {# CSRF跨站请求伪造 #}
+            {# 添加CSRF防护的隐含参数Token,这是必须配置内容,并不是可选,注意使用render来渲染页面 #}
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class=form-group>
+                    {# 手动渲染表单参考文档 #}
+                    {# https://docs.djangoproject.com/en/dev/topics/forms/#rendering-fields-manually #}
+                    {# 如果出现Form错误(各种校验错误),在Form展示给客户看 #}
+                    {% if field.errors %}
+                    {# 调整了bootstrap的显示样式 https://getbootstrap.com/docs/4.1/components/alerts/#}
+                    <div class="alert alert-danger" role="alert">{{ field.errors }}</div>
+                    {% endif %}
+                    {# 显示字段的label(名字) #}
+                    {{ field.label_tag }}
+                    {# 显示输入与选择字段 #}
+                    {{ field }}
+                </div>
+            {% endfor %}
+            {# 调整了bootstrap的显示样式 https://getbootstrap.com/docs/4.1/components/buttons/#button-tags#}
+            <input class="btn btn-primary btn-lg" type='submit' value='提交'>
+        </form>
+    </div>
+</div>
+
+
+{% endblock body %}

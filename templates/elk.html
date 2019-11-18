@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+    ELK日志分析
+{% endblock title %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+{% endblock head %}
+
+{% block js %}
+    {% load static %}
+    {# 加载Chart.js的JS文件 #}
+    {# 最新的Chart JS 文件 https://cdnjs.com/libraries/Chart.js #}
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    {# 加载ajax的JS文件 #}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+{% endblock js %}
+
+{% block body %}
+    <div class="embed-responsive embed-responsive-16by9">
+      <iframe src="http://192.168.20.10:5601/app/kibana#/dashboard/75414ef0-0523-11ea-821c-97fcbf2c96d7?embed=true&_g=()" height="600" width="800"></iframe>
+    </div>
+{% endblock body %}

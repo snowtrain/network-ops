@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}">
+{% endblock head %}
+
+{% block js %}
+    {% load static %}
+    {# Datatables的JS #}
+    <script src="{% static 'css/jquery.dataTables.min.css' %}"></script>
+{% endblock js %}
+
+{% block body %}
+<div class="container-fluid">
+       <br><h2 style="color: #666666">设备配置备份查询</h2><br>
+    <div class="card text-center">
+      <div class="card-header">
+        {# 设备选择标签卡 #}
+        <ul class="nav nav-tabs card-header-tabs">
+          {% for device in devices_list %}
+              {% if device.name == current %}
+              <li class="nav-item">
+                {# 会把当前设备current设置为active的选择卡 #}
+                <a class="nav-link active" href="/device_config/{{ device.id }}">{{ device.name }}</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/device_config/{{ device.id }}">{{ device.name }}</a>
+              </li>
+              {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+        <div class="card-body">
+          <h5 class="card-title", style="color: #9d9d9d"><strong>配置对比(选择唯一ID:时间）</strong></h5>
+            {# 下拉菜单,选择一号配置 #}
+            <select id="config1">
+             {% for device in device_config_date_hash %}
+                 {% if forloop.counter == 1 %}
+                    {# 总是会把第一个配置设置为"selected"配置 #}
+                    <option value={{ device.id }} selected="selected">{{ device.id }} : {{ device.date }}</option>
+                 {% else %}
+                    <option value={{ device.id }}>{{ device.id }} : {{ device.date }}</option>
+                 {% endif %}
+             {% endfor %}
+            </select>
+            {# 下拉菜单,选择二号配置 #}
+            <select id="config2">
+             {% for device in device_config_date_hash %}
+                 {% if forloop.counter == 1 %}
+                    {# 总是会把第一个配置设置为"selected"配置 #}
+                    <option value={{ device.id }} selected="selected">{{ device.id }} : {{ device.date }}</option>
+                 {% else %}
+                    <option value={{ device.id }}>{{ device.id }} : {{ device.date }}</option>
+                 {% endif %}
+             {% endfor %}
+            </select>
+            {# 比较按钮, 会触发JS config_compare() #}
+            <button onClick="config_compare();">比较</button>
+            {#  下面是显示备份配置的表格 #}
+            <table class="table table-bordered" id="table-for-config">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">序号</th>
+                      <th scope="col">唯一ID</th>
+                      <th scope="col">设备名</th>
+                      <th scope="col">配置HASH值</th>
+                      <th scope="col">配置备份时间</th>
+                      <th scope="col">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id ="table-for-config">
+                    {% for device in device_config_date_hash %}
+                    <tr>
+                      <th scope="row" align="center" valign="center" >{{ forloop.counter }}</th>
+                      <td align="center" valign="center" style="color:black"><strong>{{ device.id }}</strong></td>
+                      <td align="center" valign="center" style="color:black"><strong>{{ device.name }}</strong></td>
+                      <td align="center" valign="center" style="color:black"><strong>{{ device.hash }}</strong></td>
+                      <td align="center" valign="center" style="color:black"><strong>{{ device.date }}</strong></td>
+                      <td align="center" valign="center">
+                        {# 显示可以对备份配置的三种操作:删除,查看和下载 #}
+                        <a href="{{ device.delete_url }}" onclick="return confirmAct();" data-toggle="tooltip" data-placement="top" title="删除此备份配置" class="badge badge-danger">删除</a>
+                        <a href="{{ device.show_url }}"  data-toggle="tooltip" data-placement="top" title="查看此备份配置" class="badge badge-success">查看</a>
+                        <a href="{{ device.download_url }}"  data-toggle="tooltip" data-placement="top" title="下载此备份配置" class="badge badge-success">下载</a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+            </table>
+        <a class="btn btn-primary" href="/device_config/backup/" role="button">一键备份</a>
+        </div>
+    </div>
+
+</div>
+
+{# DataTable对表单进行渲染 #}
+<script>
+    $(document).ready( function () {
+        $('#table-for-config').DataTable();
+    } );
+</script>
+
+{# DataTable中点击任何一个条目变深色,表示被选中功能的JavaScript #}
+<script>
+    $(document).ready(function() {
+        var table = $('#table-for-config').DataTable();
+
+        $('#table-for-config tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        } );
+
+        $('#button').click( function () {
+            table.row('.selected').remove().draw( false );
+        } );
+    } );
+</script>
+
+{# 客户确认删除的提示信息 #}
+<script type="text/javascript" language="javascript">
+    <!--
+    function confirmAct()
+    {
+        if(confirm('确定要执行此删除操作吗?'))
+        {
+            return true;
+        }
+        return false;
+    }
+    //-->
+</script>
+
+{# 比较配置的JS #}
+<script type="text/javascript" language="javascript">
+    function config_compare() {
+        // 提取选择的配置一
+        let e = document.getElementById("config1");
+        let config1 = e.options[e.selectedIndex].value;
+        // 提取选择的配置二
+        let i = document.getElementById("config2");
+        let config2 = i.options[i.selectedIndex].value;
+        // 把请求发送到比较配置的链接
+        let url = "/device_config/compare/{{ current_device_id }}/" + config1 + "/" + config2;
+        window.open(url,'_self');
+        }
+</script>
+{% endblock body %}

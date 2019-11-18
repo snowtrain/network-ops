@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block js %}
+    {% load static %}
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static "js/chart_functions.js" %}"></script>
+    {# 加载ajax的JS文件 #}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+{% endblock js %}
+
+{% block body %}
+<div class="container-fluid">
+    <br><h2 style="color: #666666">自动化运维系统</h2><br>
+  <div class="card text-center">
+      {# 最上面的三个饼状图 #}
+      <div class="card-body">
+        <div class="row py-2">
+            <div class="col-md-4 py-1">
+                <div class="card">
+                    <div class="card-header">设备健康摘要</div>
+                    <div class="card-body">
+                        <canvas id="chDonut1" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 py-1">
+                <div class="card">
+                    <div class="card-header">CPU利用率摘要</div>
+                    <div class="card-body">
+                        <canvas id="chDonut2" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 py-1">
+                <div class="card">
+                    <div class="card-header">内存利用率摘要</div>
+                    <div class="card-body">
+                        <canvas id="chDonut3" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      {# 画4张饼图 #}
+      <div class="row py-2">
+            <div class="col-md-6 py-1">
+                <div class="card">
+                    <div class="card-header">Top 5 CPU利用率</div>
+                    <div class="card-body">
+                        {# 使用include 包含'top_cpu_utilization.html'代码进入index.html #}
+                        {% include 'top_cpu_utilization.html'%}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 py-1">
+                <div class="card">
+                    <div class="card-header">Top 5 内存利用率</div>
+                    <div class="card-body">
+                        {# 使用include 包含'top_mem_utilization.html'代码进入index.html #}
+                        {% include 'top_mem_utilization.html'%}
+                    </div>
+                </div>
+            </div>
+      </div>
+      <div class="row py-2">
+            <div class="col-md-6 py-1">
+                <div class="card">
+                    <div class="card-header">Top 5 入向接口利用率</div>
+                    <div class="card-body">
+                        {# 使用include 包含'top_rx_utilization.html'代码进入index.html #}
+                        {% include 'top_rx_utilization.html'%}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 py-1">
+                <div class="card">
+                    <div class="card-header">Top 5 出向接口利用率</div>
+                    <div class="card-body">
+                        {# 使用include 包含'top_tx_utilization.html'代码进入index.html #}
+                        {% include 'top_tx_utilization.html'%}
+                    </div>
+                </div>
+            </div>
+      </div>
+</div>
+</div>
+{# 绘制 设备健康摘要, CPU利用率摘要, 内存利用率摘要 饼状图的JS #}
+<script type="text/javascript" language="javascript">
+    // 通过URL获取JSON数据,并且渲染饼状图
+    get_json_render_chart('/home/reachable', "chDonut1", "pie");
+    get_json_render_chart('/home/cpu', "chDonut2", "pie");
+    get_json_render_chart('/home/mem', "chDonut3", "pie");
+</script>
+{% endblock body %}
