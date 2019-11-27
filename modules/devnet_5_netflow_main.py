@@ -6,7 +6,7 @@ import django
 import os
 import sys
 # 在crontab环境下可能会无法找到PYTHONPATH，PYTHONPATH决定python查找lib的路径
-sys.path.append('/home/ljtc/dev')
+sys.path.append('/home/network-ops')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'devnet.settings')
 django.setup()
 from modules.devnet_6_netflow_v9 import ExportPacket

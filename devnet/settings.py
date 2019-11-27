@@ -132,4 +132,4 @@ STATICFILES_DIRS = [
 
 STATIC_URL = '/static/'
 
-HTML_DIR = '/home/ljtc/dev/templates/pyhtml/'
+HTML_DIR = '/home/network-ops/templates/pyhtml/'

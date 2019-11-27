@@ -4,7 +4,7 @@ import re
 import netmiko
 import sys
 # 在crontab环境下可能会无法找到PYTHONPATH，PYTHONPATH决定python查找lib的路径
-sys.path.append('/home/ljtc/dev')
+sys.path.append('/home/network-ops')
 import django
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'devnet.settings')

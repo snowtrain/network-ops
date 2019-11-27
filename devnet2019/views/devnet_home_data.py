@@ -123,3 +123,4 @@ def health_mem(request):  # 为首页的"内存利用率摘要" 饼状图提供J
         .set_colors(['#228b22', '#ffff00', '#ff0000'])
     )
     c.render(HTML_DIR + 'mem.html')
+

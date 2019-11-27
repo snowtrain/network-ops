@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="ljtc@192.168.10.122:22">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@192.168.10.122:22">
     <serverData>
-      <paths name="ljtc@192.168.10.122:22">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/home/ljtc/dev" local="$PROJECT_DIR$" web="/" />
-            <mapping deploy="/home/netflow" local="$PROJECT_DIR$/../Python_Netflow" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="python@192.168.10.14:22">
+      <paths name="ljtc@192.168.10.11:22">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="root@192.168.10.11:22">
+      <paths name="root@192.168.10.122:22">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/ljtc/桌面/devnet" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/network-ops" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="sftp">
+      <paths name="root@192.168.10.12:22">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />

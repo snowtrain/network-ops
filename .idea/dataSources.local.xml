@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="devnetdb@192.168.10.122" uuid="e2ac72fe-ba35-49bd-993b-6d2e29b438bc">
-      <database-info product="PostgreSQL" version="9.2.24" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.5" family="POSTGRES" exact-version="9.2.24">
+    <data-source name="devnetdb@192.168.10.122" uuid="811b1b84-4474-4365-9b7c-7ac81682983e">
+      <database-info product="PostgreSQL" version="9.2.24" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.5">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
       <user-name>clouduser</user-name>
-      <introspection-schemas>@:@|devnetdb:</introspection-schemas>
-    </data-source>
-    <data-source name="test@192.168.10.122" uuid="74b1f161-3999-48be-9bdb-deeae52d6ac4">
-      <database-info product="PostgreSQL" version="9.2.24" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.5" family="POSTGRES" exact-version="9.2.24">
-        <identifier-quote-string>&quot;</identifier-quote-string>
-      </database-info>
-      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
-      <secret-storage>master_key</secret-storage>
-      <user-name>clouduser</user-name>
-      <introspection-schemas>@:@</introspection-schemas>
+      <introspection-schemas>devnetdb:public</introspection-schemas>
     </data-source>
   </component>
 </project>
